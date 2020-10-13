@@ -96,8 +96,35 @@ class SortingRobot:
         """
         Sort the robot's list.
         """
-        # Fill this out
-        pass
+        # swap the first item with None
+        self.swap_item()
+        # set the light to on until the loop is complete
+        self.set_light_on()
+
+        while self.light_is_on():
+            # iterate to the end of the list
+            while self.move_right():
+                # if the next item is smaller, swap the items
+                if self.compare_item() == 1:
+                    self.swap_item()
+            # at the end, the robot is holding the smallest item
+            # now go left until None is reached
+            while self.move_left():
+                # when None is reached swap items
+                # then move one spot right and swap again
+                if self.compare_item() is None:
+                    self.swap_item()
+                    self.move_right()
+                    self.swap_item()
+                    # at this point everything to the left of None is sorted
+                    # break from moving left and continue moving right
+                    break
+            # when the robot can no longer move right
+            # do one last swap and turn off the light
+            # the robot is holding none and the list is sorted
+            if self.can_move_right() is False:
+                self.swap_item()
+                self.set_light_off()
 
 
 if __name__ == "__main__":
@@ -106,6 +133,7 @@ if __name__ == "__main__":
 
     l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
 
+    l2 = [15, 41, 58, 49, 26, 4, 8, 0, 21]
     robot = SortingRobot(l)
 
     robot.sort()
